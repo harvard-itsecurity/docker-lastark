@@ -1,13 +1,15 @@
 ![LastArk](https://preview.ibb.co/gZew4x/lastark.png)
 ### Version: 1.0.0
 
+https://github.com/harvard-itsecurity/docker-lastark
+
 # What is LastArk?
 
 LastArk is a replacement in functionality for CyberArk's EPV (Enterprise Password Vault) - specifically, the Privileged Identity Management (PIM) component.
 
-In plain words: this is a better (much better!) PIM which "takes over" AD/LDAP accounts, generates long random passwords and syncs those passwords to the AD/LDAP accounts, rotates these passwords at a custom specified time interval, and then allows the user to retrieve those passwords when they need them.
+In plain words: this is a better (much better!) PIM which "takes over" AD/LDAP accounts, generates long random passwords, syncs those passwords to the AD/LDAP accounts, rotates these passwords at a custom specified time interval, and then allows the user to retrieve those passwords when they need them. LastArk also adds an additional benefit of pushing the rotating password object (in real time) to each user's LastPass Enterprise account.
 
-LastArk also adds an additional benefit of pushing the rotating password object to each user's LastPass Enterprise account. This allows the user to use LastPass Enterprise as a password vault, and with the addition of LastArk, as a PIM, where each user can instantly retrieve their latest rotating privileged account password.
+This allows the user to use LastPass Enterprise as a password vault, and with the addition of LastArk, as a PIM, where each user can instantly retrieve their latest active privileged account password.
 
 # What do I need to use LastArk?
 
@@ -30,7 +32,7 @@ a.) Config: ```/docker/config/lastark.cfg```
 (see "Create a Config file" for the requried format)
 
 b.) Users: ```/docker/users```
-Users directory, which takes:
+Users directory -- see bellow for specifics in "Volumes you can override"
 
 c.) Logs: ```/docker/logs```
 Learn more in the "Volumes you can override" section bellow.
@@ -109,9 +111,9 @@ file.
 1.) Configs: ```/root/lastark/config/lastark.cfg```
 
 2.) Users: ```/root/lastark/users```
-Users directory, which takes:
+Users directory, which takes/creates these files:
 * users.provision = users to be auto provisioned under LastArk on the
-next scheduled run
+next scheduled run (created by admin or API)
 
 * users.last-provision = users last provisioned successfully under
 LastArk
