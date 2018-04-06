@@ -167,4 +167,4 @@ As you can clearly see by now, your lastark.cfg is "sensitive" to say the least.
 # Help/Questions/Comments:
 For help or more info, please open a GitHub [issue](https://github.com/harvard-itsecurity/docker-lastark/issues)
 
-Feel free to submit improvements/PRs - the goal is to make this better and get rid of CyberArk ;)
+Feel free to submit improvements/PRs!
