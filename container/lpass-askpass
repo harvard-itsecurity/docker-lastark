@@ -1,0 +1,3 @@
+#!/bin/bash
+source "$HOME/lastark/lib/config.shlib";
+echo "$(config_get lastpass_account_pass)";

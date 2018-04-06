@@ -1,0 +1,26 @@
+#!/bin/bash
+source "$HOME/lastark/lib/config.shlib";
+
+LASTARK_FQDN="$(config_get lastark_fqdn)";
+MAIL_SERVER_FROM_DOMAIN="$(config_get mail_server_from_domain)";
+MAIL_SERVER_RELAY_HOST="$(config_get mail_server_relay_host)";
+MAIL_SERVER_RELAY_PORT="$(config_get mail_server_relay_port)";
+
+postconf -e "inet_interfaces = all"
+postconf -e "myhostname = $LASTARK_FQDN"
+postconf -e "masquerade_domains = $MAIL_SERVER_FROM_DOMAIN"
+postconf -e "mydomain = $MAIL_SERVER_FROM_DOMAIN"
+postconf -e "myorigin = $MAIL_SERVER_FROM_DOMAIN"
+postconf -e "relayhost = [$MAIL_SERVER_RELAY_HOST]:$MAIL_SERVER_RELAY_PORT"
+
+LASTPASS_ACCOUNT_ADMIN="$(config_get lastpass_account_admin)";
+rm -rf /root/.lpass/*
+export LPASS_HOME=/root/.lpass && export LPASS_AGENT_TIMEOUT=0 && export LPASS_ASKPASS=/root/lpass-askpass && lpass login $LASTPASS_ACCOUNT_ADMIN
+
+
+PASSWORD_ROTATION_TIME="$(config_get password_rotation_time)";
+NOTIFICATION_TO_EMAIL="$(config_get notification_to_email)";
+echo "*/$PASSWORD_ROTATION_TIME * * * * root /root/lastark/service.sh > /dev/null" >> /etc/crontab
+sed -i "s/MAILTO=root/MAILTO=$NOTIFICATION_TO_EMAIL/" /etc/crontab
+
+sleep infinity

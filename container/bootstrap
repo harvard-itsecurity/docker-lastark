@@ -1,0 +1,27 @@
+#!/bin/bash
+source "$HOME/lastark/lib/config.shlib";
+
+LASTPASS_ACCOUNT_ADMIN="$(config_get lastpass_account_admin)";
+NOTIFICATION_TO_EMAIL=$(config_get notification_to_email)
+
+rm -rf /root/.lpass/*
+export LPASS_HOME=/root/.lpass && export LPASS_AGENT_TIMEOUT=0 && export LPASS_ASKPASS=/root/lpass-askpass && lpass login $LASTPASS_ACCOUNT_ADMIN
+
+"$HOME/lastark/tools/log.sh" "*BOOTSTRAPPING LASTARK*" "Initializing STUB-DO-NOT-DELETE"
+
+echo "Creating: 'STUB-DO-NOT-DELETE'"
+printf "Username: STUB-DO-NOT-DELETE\nPassword: STUB-DO-NOT-DELETE\nURL: STUB-DO-NOT-DELETE" | lpass add STUB-DO-NOT-DELETE --non-interactive --sync=auto && lpass sync && sleep 3
+
+
+LPASS="/usr/bin/lpass";
+R=$($LPASS ls | grep 'STUB-DO-NOT-DELETE');
+if [[ -z $R ]]; then
+    echo "!!! BOOTSTRAPPING FAILED !!!"; echo;
+    "$HOME/lastark/tools/log.sh" "*CRITICAL ERROR* - BOOTSTRAPPING FAILED" "It looks like we were not able to bootstrap LastArk. Please check your account login and password. Alternatively, please make sure you can perform a LastPass CLI login manually, and add an item manually. If not, see your LastPass Enterprise Rep"
+    exit 1;
+else 
+    "$HOME/lastark/tools/log.sh" "Successfully Bootstrapped LastArk" "Logged In and Created: STUB-DO-NOT-DELETE"
+    echo "SUCCESS! You are ready to provision users!"
+fi
+
+rm -f /bootstrap

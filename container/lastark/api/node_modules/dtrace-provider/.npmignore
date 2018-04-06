@@ -1,0 +1,9 @@
+.lock-wscript
+*.node
+*~
+.#*
+*#
+build
+*.log
+test
+TODO.md

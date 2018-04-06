@@ -1,0 +1,9 @@
+Files:
+======
+users.provision = users to be auto provisioned under LastArk on the next scheduled run
+
+users.last-provision = users last provisioned successfully under LastArk
+
+users.failed.provision = last users _attempted_ (however, failed) to be provisioned
+
+users.txt = all users under LastArk control - auto password management/rotation
