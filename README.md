@@ -1,5 +1,5 @@
 ![LastArk](https://preview.ibb.co/gZew4x/lastark.png)
-### Version: 1.0.0
+### Version: 1.1.0
 
 https://github.com/harvard-itsecurity/docker-lastark
 
@@ -168,10 +168,9 @@ As you can clearly see by now, your lastark.cfg is "sensitive" to say the least.
 
 Even though the config file is mounted read-only, it's at least hypothetically possible to imagine a scenario where someone will find a way to modify it and re-load it. One of the ways we add additional security around that is with the ```CONFIG_HASH``` check.
 
-The idea behind this is that if you compuate the ```sha1sum``` hash of your lastark.cfg, and then pass it pass ```--env CONFIG_HASH=$sha1sum``` to docker as a runtime parameter, it will keep checking the run time config for that hash. If someone finds a way to modify the read-only file, it will log the event, and notify you via email.
+The idea behind this is that you compute the ```sha1sum``` hash of your ```lastark.cfg```, and pass it to docker as a runtime environment parameter ```--env CONFIG_HASH=$sha1sum```. LastArk will keep checking and comparing the run time config against the preset hash, and if it ever differs, it will log the event and notify you via email.
 
-The full config would look like this:
-
+The docker run with the hash checking enabled would look like this:
 ```
 # Assuming the sha1sum of your your lastark.cfg is: da39a3ee5e6b4b0d3255bfef95601890afd80709
 
