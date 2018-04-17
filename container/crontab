@@ -17,4 +17,5 @@ LPASS_HOME=/root/.lpass
 LPASS_AGENT_TIMEOUT=0
 # If you want to debug:
 #LPASS_LOG_LEVEL=8
+* * * * * root /root/lastark/tools/hash_check.sh
 59 * * * * root /root/lastark/tools/health_check.sh

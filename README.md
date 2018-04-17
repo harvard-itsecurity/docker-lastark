@@ -82,7 +82,7 @@ docker run -it -d --restart=always \
     -p 8080:8080 \
     -v /docker/lastark/users:/root/lastark/users \
     -v /docker/lastark/config/lastark.cfg:/root/lastark/config/lastark.cfg:ro \
-    -v /docker/lastark/logs:/var/log/lastark
+    -v /docker/lastark/logs:/var/log/lastark \
     harvarditsecurity/lastark
 ```
 
@@ -163,6 +163,26 @@ ad_ldap_bindpasswd=
 * **ad_ldap_bindpasswd** - the AD/LDAP Bind Password
 
 As you can clearly see by now, your lastark.cfg is "sensitive" to say the least. It is your responsibility to protect this file. This is no different from any other config file that contains secrets/passwords. This is also the reason we suggest mounting in your container as "read-only" (:ro).
+
+# Extra Security with the Config File
+
+Even though the config file is mounted read-only, it's at least hypothetically possible to imagine a scenario where someone will find a way to modify it and re-load it. One of the ways we add additional security around that is with the ```CONFIG_HASH``` check.
+
+The idea behind this is that if you compuate the ```sha1sum``` hash of your lastark.cfg, and then pass it pass ```--env CONFIG_HASH=$sha1sum``` to docker as a runtime parameter, it will keep checking the run time config for that hash. If someone finds a way to modify the read-only file, it will log the event, and notify you via email.
+
+The full config would look like this:
+
+```
+# Assuming the sha1sum of your your lastark.cfg is: da39a3ee5e6b4b0d3255bfef95601890afd80709
+
+docker run -it -d --restart=always \
+    --env CONFIG_HASH=da39a3ee5e6b4b0d3255bfef95601890afd80709 \
+    -p 8080:8080 \
+    -v /docker/lastark/users:/root/lastark/users \
+    -v /docker/lastark/config/lastark.cfg:/root/lastark/config/lastark.cfg:ro \
+    -v /docker/lastark/logs:/var/log/lastark \
+    harvarditsecurity/lastark
+```
 
 # Help/Questions/Comments:
 For help or more info, please open a GitHub [issue](https://github.com/harvard-itsecurity/docker-lastark/issues)
