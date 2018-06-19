@@ -13,7 +13,7 @@ RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - && \
     yum -y install epel-release && yum -y update && \
     yum -y update && yum -y install openssl libcurl libxml2 pinentry xclip openssl-devel libxml2-devel libcurl-devel gcc gcc-c++ make cmake wget unzip && \
     yum -y install lastpass-cli crontabs openldap-clients mailx postfix supervisor nodejs && \
-    cd /tmp; wget -q https://github.com/lastpass/lastpass-cli/archive/v1.3.0.zip && unzip v1.3.0.zip && cd lastpass-cli-1.3.0 && make && make install && cd /tmp && rm -rf lastpass-cli-1.3.0 ; \
+    cd /tmp; wget -q https://github.com/lastpass/lastpass-cli/archive/v1.3.1.zip && unzip v1.3.1.zip && cd lastpass-cli-1.3.1 && make && make install && cd /tmp && rm -rf lastpass-cli-1.3.1 ; \
     yum remove openssl libcurl libxml2 pinentry xclip openssl-devel libxml2-devel libcurl-devel gcc gcc-c++ cmake wget unzip && yum autoremove ; \
     yum -y clean all && rm -rf /var/cache/yum
 
